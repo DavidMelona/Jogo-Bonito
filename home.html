@@ -28,7 +28,7 @@
         }
 
         /* =====================================================
-           HEADER - Estilo NEW NOW
+           HEADER
            ===================================================== */
         .main-header {
             display: flex;
@@ -54,53 +54,58 @@
             color: #1a5d1a;
         }
 
-        /* Navegación central */
+        /* Navegación - Solo Home, Camisetas, Botas */
         .main-nav {
             display: flex;
-            gap: 35px;
+            gap: 40px;
         }
 
         .nav-item {
-            position: relative;
             font-size: 0.95rem;
-            font-weight: 500;
+            font-weight: 600;
             color: #333;
             padding: 10px 0;
-            cursor: pointer;
             transition: color 0.3s ease;
+            border-bottom: 2px solid transparent;
         }
 
-        .nav-item:hover {
+        .nav-item:hover,
+        .nav-item.active {
             color: #1a5d1a;
-        }
-
-        .nav-item::after {
-            content: '▼';
-            font-size: 0.6rem;
-            margin-left: 5px;
-            opacity: 0.5;
-        }
-
-        .nav-item.no-dropdown::after {
-            display: none;
+            border-bottom-color: #1a5d1a;
         }
 
         /* Acciones derecha */
         .header-actions {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
-        .login-link {
+        /* Usuario con icono */
+        .user-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-size: 0.9rem;
             font-weight: 500;
             color: #333;
             transition: color 0.3s ease;
         }
 
-        .login-link:hover {
+        .user-link:hover {
             color: #1a5d1a;
+        }
+
+        .user-icon {
+            width: 32px;
+            height: 32px;
+            background: #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
         }
 
         .search-btn, .cart-btn {
@@ -143,9 +148,9 @@
         }
 
         /* =====================================================
-           BANNER PRINCIPAL
+           SLIDER / CARRUSEL DE IMÁGENES
            ===================================================== */
-        .hero-banner {
+        .hero-slider {
             position: relative;
             width: 100%;
             height: 450px;
@@ -153,39 +158,76 @@
             background: #1a1a1a;
         }
 
-        .hero-banner img {
+        .slider-container {
+            display: flex;
+            width: 200%;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            width: 50%;
+            height: 100%;
+            flex-shrink: 0;
+        }
+
+        .slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
-        .hero-overlay {
+        /* Controles del slider */
+        .slider-btn {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 40px;
-            background: linear-gradient(transparent, rgba(0,0,0,0.7));
-            display: flex;
-            justify-content: center;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
         }
 
-        .btn-comprar {
-            background: #ffc107;
-            color: #1a1a1a;
-            padding: 15px 50px;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            border: none;
-            border-radius: 5px;
+        .slider-btn:hover {
+            background: #1a5d1a;
+            color: white;
+        }
+
+        .slider-btn.prev {
+            left: 20px;
+        }
+
+        .slider-btn.next {
+            right: 20px;
+        }
+
+        /* Indicadores del slider */
+        .slider-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .btn-comprar:hover {
-            background: #ffca28;
-            transform: scale(1.05);
+        .dot.active {
+            background: white;
+            transform: scale(1.2);
         }
 
         /* =====================================================
@@ -193,7 +235,7 @@
            ===================================================== */
         .products-section {
             padding: 50px 40px;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -206,119 +248,97 @@
             text-transform: uppercase;
         }
 
-        /* Grid de productos estilo NEW NOW */
+        /* Grid de 3 productos */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 20px;
-        }
-
-        @media (max-width: 1200px) {
-            .products-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
         }
 
         @media (max-width: 900px) {
-            .products-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 600px) {
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        /* Tarjeta de producto minimalista */
+        @media (max-width: 600px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tarjeta de producto */
         .product-card {
             background: #f8f8f8;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
         }
 
         .product-card img {
             width: 100%;
-            height: 200px;
+            height: 280px;
             object-fit: contain;
-            padding: 15px;
+            padding: 20px;
             background: #f8f8f8;
         }
 
         .product-info {
-            padding: 15px;
+            padding: 20px;
             text-align: center;
             background: white;
         }
 
         .product-name {
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
             color: #333;
-            margin-bottom: 8px;
-            line-height: 1.3;
+            margin-bottom: 10px;
         }
 
         .product-price {
-            font-size: 1rem;
-            font-weight: 700;
+            font-size: 1.3rem;
+            font-weight: 800;
             color: #1a5d1a;
+            margin-bottom: 15px;
         }
 
-        .product-price .old-price {
-            text-decoration: line-through;
-            color: #999;
-            font-size: 0.85rem;
-            margin-right: 8px;
-        }
-
-        /* Botón añadir al carrito (aparece en hover) */
+        /* Botón añadir SIEMPRE visible debajo del precio */
         .btn-add {
-            position: absolute;
-            bottom: 70px;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
             background: #1a5d1a;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 0.8rem;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            opacity: 0;
             transition: all 0.3s ease;
-        }
-
-        .product-card:hover .btn-add {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+            width: 100%;
         }
 
         .btn-add:hover {
             background: #2d8f2d;
+            transform: scale(1.02);
         }
 
         /* Badge de oferta */
         .badge-sale {
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 15px;
+            left: 15px;
             background: #e74c3c;
             color: white;
-            padding: 5px 10px;
-            font-size: 0.7rem;
+            padding: 6px 12px;
+            font-size: 0.75rem;
             font-weight: 700;
-            border-radius: 3px;
+            border-radius: 5px;
         }
 
         /* =====================================================
@@ -389,7 +409,7 @@
         }
 
         /* =====================================================
-           RESPONSIVE HEADER
+           RESPONSIVE
            ===================================================== */
         @media (max-width: 900px) {
             .main-header {
@@ -402,16 +422,19 @@
                 width: 100%;
                 justify-content: center;
                 margin-top: 15px;
-                gap: 20px;
-                flex-wrap: wrap;
+                gap: 25px;
             }
 
-            .hero-banner {
+            .hero-slider {
                 height: 300px;
             }
 
             .products-section {
                 padding: 30px 20px;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
             }
         }
     </style>
@@ -419,24 +442,25 @@
 <body>
 
     <!-- =====================================================
-         HEADER ESTILO NEW NOW
+         HEADER - Solo Home, Camisetas, Botas
          ===================================================== -->
     <header class="main-header">
         <!-- Logo -->
         <a href="home.html" class="logo">JOGO <span>BONITO</span></a>
 
-        <!-- Navegación -->
+        <!-- Navegación simplificada -->
         <nav class="main-nav">
-            <a href="home.html" class="nav-item no-dropdown">Home</a>
+            <a href="home.html" class="nav-item active">Home</a>
             <a href="camisetas.html" class="nav-item">Camisetas</a>
             <a href="botas.html" class="nav-item">Botas</a>
-            <a href="#" class="nav-item">Selecciones</a>
-            <a href="#" class="nav-item">Ofertas</a>
         </nav>
 
-        <!-- Acciones -->
+        <!-- Acciones: Usuario con icono -->
         <div class="header-actions">
-            <a href="login.html" class="login-link">Login / Register</a>
+            <a href="login.html" class="user-link">
+                <div class="user-icon">👤</div>
+                <span>Usuario</span>
+            </a>
             <button class="search-btn">🔍</button>
             <a href="carrito.html" class="cart-btn">
                 🛒
@@ -447,32 +471,46 @@
     </header>
 
     <!-- =====================================================
-         BANNER PRINCIPAL
+         SLIDER DE IMÁGENES (2 imágenes deslizables)
          ===================================================== -->
-    <section class="hero-banner">
-        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1400" alt="Camisetas de fútbol">
-        <div class="hero-overlay">
-            <button class="btn-comprar" onclick="window.location.href='camisetas.html'">COMPRA AHORA</button>
+    <section class="hero-slider">
+        <div class="slider-container" id="sliderContainer">
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1400" alt="Camisetas de fútbol">
+            </div>
+            <div class="slide">
+                <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=1400" alt="Estadio de fútbol">
+            </div>
+        </div>
+
+        <!-- Botones de navegación -->
+        <button class="slider-btn prev" onclick="moveSlider(-1)">❮</button>
+        <button class="slider-btn next" onclick="moveSlider(1)">❯</button>
+
+        <!-- Indicadores -->
+        <div class="slider-dots">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
         </div>
     </section>
 
     <!-- =====================================================
-         LOS MÁS VENDIDOS - CAMISETAS
+         LOS MÁS VENDIDOS - 3 CAMISETAS
          ===================================================== -->
     <section class="products-section">
         <h2 class="section-title">Los Más Vendidos</h2>
         <div class="products-grid" id="camisetasGrid">
-            <!-- Productos generados con JS -->
+            <!-- 3 productos generados con JS -->
         </div>
     </section>
 
     <!-- =====================================================
-         BOTAS DE FÚTBOL
+         BOTAS DE FÚTBOL - 3 BOTAS
          ===================================================== -->
     <section class="products-section">
         <h2 class="section-title">Botas de Fútbol</h2>
         <div class="products-grid" id="botasGrid">
-            <!-- Productos generados con JS -->
+            <!-- 3 productos generados con JS -->
         </div>
     </section>
 
@@ -486,8 +524,6 @@
             <a href="camisetas.html">Camisetas</a>
             <a href="botas.html">Botas</a>
             <a href="carrito.html">Carrito</a>
-            <a href="ajustes.html">Mi Cuenta</a>
-            <a href="#">Contacto</a>
         </div>
         <p class="footer-copy">© 2026 Jogo Bonito - Tu tienda de fútbol de confianza | Reus, Catalunya</p>
     </footer>
@@ -497,25 +533,77 @@
          ===================================================== -->
     <script>
         // =====================================================
-        // BASE DE DATOS DE PRODUCTOS
+        // SLIDER DE IMÁGENES
+        // =====================================================
+        let currentSlide = 0;
+        const totalSlides = 2;
+
+        function moveSlider(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const container = document.getElementById('sliderContainer');
+            container.style.transform = `translateX(-${currentSlide * 50}%)`;
+
+            // Actualizar indicadores
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        // =====================================================
+        // BASE DE DATOS DE PRODUCTOS (Solo 3 de cada)
         // =====================================================
 
+        // 3 Camisetas más vendidas: Barça, Real Madrid, Liverpool
         const camisetas = [
-            { id: 1, nombre: "FC Barcelona Home 24/25", precio: 89.99, oldPrice: 99.99, img: "https://images.unsplash.com/photo-1580087256394-dc596e1c8f4f?w=400", sale: true },
-            { id: 2, nombre: "Atlético Madrid Home", precio: 84.99, img: "https://images.unsplash.com/photo-1577212017184-80cc0da11082?w=400" },
-            { id: 3, nombre: "Real Betis Home 24/25", precio: 79.99, img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400" },
-            { id: 4, nombre: "España Selección 2024", precio: 94.99, oldPrice: 109.99, img: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400", sale: true },
-            { id: 5, nombre: "Real Madrid Home 24/25", precio: 89.99, img: "https://images.unsplash.com/photo-1551854838-212c50b4c184?w=400" },
-            { id: 6, nombre: "FC Barcelona Away", precio: 89.99, img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400" }
+            { 
+                id: 1, 
+                nombre: "Camiseta FC Barcelona 24/25", 
+                precio: 89.99, 
+                img: "https://images.unsplash.com/photo-1580087256394-dc596e1c8f4f?w=400"
+            },
+            { 
+                id: 2, 
+                nombre: "Camiseta Real Madrid 24/25", 
+                precio: 89.99, 
+                img: "https://images.unsplash.com/photo-1577212017184-80cc0da11082?w=400"
+            },
+            { 
+                id: 3, 
+                nombre: "Camiseta Liverpool FC 24/25", 
+                precio: 84.99, 
+                img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400"
+            }
         ];
 
+        // 3 Botas
         const botas = [
-            { id: 11, nombre: "Nike Mercurial Vapor 15", precio: 159.99, img: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=400" },
-            { id: 12, nombre: "Adidas Predator Edge", precio: 189.99, oldPrice: 219.99, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400", sale: true },
-            { id: 13, nombre: "Puma Future Z 1.4", precio: 169.99, img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400" },
-            { id: 14, nombre: "Nike Phantom GT2", precio: 179.99, img: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=400" },
-            { id: 15, nombre: "Adidas Copa Pure", precio: 149.99, img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" },
-            { id: 16, nombre: "Nike Tiempo Legend 9", precio: 169.99, oldPrice: 189.99, img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400", sale: true }
+            { 
+                id: 11, 
+                nombre: "Nike Mercurial Vapor 15", 
+                precio: 159.99, 
+                img: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=400"
+            },
+            { 
+                id: 12, 
+                nombre: "Adidas Predator Edge", 
+                precio: 189.99, 
+                img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"
+            },
+            { 
+                id: 13, 
+                nombre: "Puma Future Z 1.4", 
+                precio: 169.99, 
+                img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400"
+            }
         ];
 
         // =====================================================
@@ -567,7 +655,7 @@
         }
 
         // =====================================================
-        // RENDERIZAR PRODUCTOS
+        // RENDERIZAR PRODUCTOS (con botón visible)
         // =====================================================
 
         function renderizarProductos(productos, contenedorId) {
@@ -578,21 +666,14 @@
                 const card = document.createElement('div');
                 card.className = 'product-card';
 
-                const saleHtml = producto.sale ? '<span class="badge-sale">OFERTA</span>' : '';
-                const oldPriceHtml = producto.oldPrice ? `<span class="old-price">${producto.oldPrice.toFixed(2)}€</span>` : '';
-
                 card.innerHTML = `
-                    ${saleHtml}
                     <img src="${producto.img}" alt="${producto.nombre}">
-                    <button class="btn-add" onclick='event.stopPropagation(); agregarAlCarrito(${JSON.stringify(producto)})'>
-                        + Añadir
-                    </button>
                     <div class="product-info">
                         <p class="product-name">${producto.nombre}</p>
-                        <p class="product-price">
-                            ${oldPriceHtml}
-                            ${producto.precio.toFixed(2)}€
-                        </p>
+                        <p class="product-price">${producto.precio.toFixed(2)}€</p>
+                        <button class="btn-add" onclick='agregarAlCarrito(${JSON.stringify(producto)})'>
+                            🛒 Añadir al carrito
+                        </button>
                     </div>
                 `;
 
