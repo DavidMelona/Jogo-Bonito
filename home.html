@@ -1,1 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Jogo Bonito</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- =====================================================
+         CABECERA PRINCIPAL
+         ===================================================== -->
+    <header class="main-header">
+        <!-- Logo con enlace a home -->
+        <a href="home.html" class="header-logo">
+            <span class="logo-icon">⚽</span>
+            <span class="logo-text">JOGO BONITO</span>
+        </a>
 
+        <!-- Menú de navegación central -->
+        <nav class="main-nav">
+            <a href="home.html" class="nav-link active">Home</a>
+            <a href="camisetas.html" class="nav-link">Camisetas</a>
+            <a href="botas.html" class="nav-link">Botas</a>
+        </nav>
+
+        <!-- Sección derecha: carrito y perfil -->
+        <div class="header-actions">
+            <!-- Carrito con contador -->
+            <a href="carrito.html" class="cart-btn" id="cartBtn">
+                <span class="cart-icon">🛒</span>
+                <span class="cart-counter" id="cartCounter">0</span>
+            </a>
+            <!-- Foto de perfil -->
+            <a href="ajustes.html" class="profile-btn">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=jugador1" alt="Perfil" class="profile-img" id="headerProfileImg">
+            </a>
+        </div>
+    </header>
+
+    <!-- =====================================================
+         BANNER CARRUSEL PUBLICITARIO
+         ===================================================== -->
+    <section class="carousel-section">
+        <div class="carousel" id="carousel">
+            <!-- Slides del carrusel -->
+            <div class="carousel-slide active">
+                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1200" alt="Promoción 1">
+                <div class="carousel-content">
+                    <h2>🔥 NUEVA TEMPORADA</h2>
+                    <p>Descubre las camisetas oficiales 2026</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=1200" alt="Promoción 2">
+                <div class="carousel-content">
+                    <h2>⚡ BOTAS PRO</h2>
+                    <p>Velocidad y control en cada jugada</p>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <img src="https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?w=1200" alt="Promoción 3">
+                <div class="carousel-content">
+                    <h2>🏆 ENVÍO GRATIS</h2>
+                    <p>En pedidos superiores a 50€</p>
+                </div>
+            </div>
+        </div>
+        <!-- Controles del carrusel -->
+        <button class="carousel-btn prev" onclick="moveCarousel(-1)">❮</button>
+        <button class="carousel-btn next" onclick="moveCarousel(1)">❯</button>
+        <!-- Indicadores -->
+        <div class="carousel-dots">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+        </div>
+    </section>
+
+    <!-- =====================================================
+         SECCIÓN DE CAMISETAS (10 productos)
+         ===================================================== -->
+    <section class="products-section">
+        <h2 class="section-title">👕 Camisetas</h2>
+        <div class="products-grid" id="camisetasGrid">
+            <!-- Los productos se generan dinámicamente -->
+        </div>
+    </section>
+
+    <!-- =====================================================
+         SECCIÓN DE BOTAS (6 productos)
+         ===================================================== -->
+    <section class="products-section">
+        <h2 class="section-title">👟 Botas</h2>
+        <div class="products-grid" id="botasGrid">
+            <!-- Los productos se generan dinámicamente -->
+        </div>
+    </section>
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+    <footer class="main-footer">
+        <p>© 2026 Jogo Bonito - Tu tienda deportiva de confianza</p>
+        <p>📍 Reus, Catalunya | 📞 +34 977 123 456 | ✉️ info@jogobonito.es</p>
+    </footer>
+
+    <!-- =====================================================
+         JAVASCRIPT PARA INTERACCIONES
+         ===================================================== -->
+    <script>
+        // =====================================================
+        // BASE DE DATOS DE PRODUCTOS
+        // =====================================================
+
+        const camisetas = [
+            { id: 1, nombre: "Camiseta FC Barcelona Home", precio: 89.99, img: "https://images.unsplash.com/photo-1580087256394-dc596e1c8f4f?w=400" },
+            { id: 2, nombre: "Camiseta Real Madrid Away", precio: 89.99, img: "https://images.unsplash.com/photo-1577212017184-80cc0da11082?w=400" },
+            { id: 3, nombre: "Camiseta Argentina 2026", precio: 94.99, img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400" },
+            { id: 4, nombre: "Camiseta Brasil Clásica", precio: 84.99, img: "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400" },
+            { id: 5, nombre: "Camiseta Manchester United", precio: 79.99, img: "https://images.unsplash.com/photo-1551854838-212c50b4c184?w=400" },
+            { id: 6, nombre: "Camiseta Liverpool FC", precio: 84.99, img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400" },
+            { id: 7, nombre: "Camiseta Juventus Home", precio: 89.99, img: "https://images.unsplash.com/photo-1598970605070-a38a6ccd3a2d?w=400" },
+            { id: 8, nombre: "Camiseta PSG 2026", precio: 94.99, img: "https://images.unsplash.com/photo-1620799139507-2a76f79a2f4d?w=400" },
+            { id: 9, nombre: "Camiseta Bayern Munich", precio: 89.99, img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400" },
+            { id: 10, nombre: "Camiseta España Selección", precio: 99.99, img: "https://images.unsplash.com/photo-1518002054494-3a6f94352e9d?w=400" }
+        ];
+
+        const botas = [
+            { id: 11, nombre: "Botas Velocity X1 Pro", precio: 159.99, img: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=400" },
+            { id: 12, nombre: "Botas Predator Elite", precio: 189.99, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" },
+            { id: 13, nombre: "Botas Phantom GT2", precio: 169.99, img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400" },
+            { id: 14, nombre: "Botas Mercurial Vapor", precio: 199.99, img: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?w=400" },
+            { id: 15, nombre: "Botas Copa Mundial", precio: 149.99, img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" },
+            { id: 16, nombre: "Botas Future Z 1.1", precio: 179.99, img: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=400" }
+        ];
+
+        // =====================================================
+        // CARRITO DE COMPRAS (localStorage)
+        // =====================================================
+
+        // Cargar carrito desde localStorage o inicializar vacío
+        let carrito = JSON.parse(localStorage.getItem('jogoBonitoCart')) || [];
+
+        // Guardar carrito en localStorage
+        function guardarCarrito() {
+            localStorage.setItem('jogoBonitoCart', JSON.stringify(carrito));
+            actualizarContadorCarrito();
+        }
+
+        // Actualizar contador visual del carrito
+        function actualizarContadorCarrito() {
+            const contador = document.getElementById('cartCounter');
+            const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            contador.textContent = totalItems;
+            contador.style.display = totalItems > 0 ? 'flex' : 'none';
+        }
+
+        // Agregar producto al carrito
+        function agregarAlCarrito(producto) {
+            const existente = carrito.find(item => item.id === producto.id);
+
+            if (existente) {
+                existente.cantidad++;
+            } else {
+                carrito.push({ ...producto, cantidad: 1 });
+            }
+
+            guardarCarrito();
+            mostrarNotificacion('✅ Producto añadido al carrito');
+        }
+
+        // Mostrar notificación temporal
+        function mostrarNotificacion(mensaje) {
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.textContent = mensaje;
+            document.body.appendChild(notif);
+
+            setTimeout(() => notif.classList.add('show'), 10);
+            setTimeout(() => {
+                notif.classList.remove('show');
+                setTimeout(() => notif.remove(), 300);
+            }, 2000);
+        }
+
+        // =====================================================
+        // RENDERIZAR PRODUCTOS
+        // =====================================================
+
+        function renderizarProductos(productos, contenedorId) {
+            const contenedor = document.getElementById(contenedorId);
+            contenedor.innerHTML = '';
+
+            productos.forEach((producto, index) => {
+                const card = document.createElement('article');
+                card.className = 'product-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+
+                card.innerHTML = `
+                    <img src="${producto.img}" alt="${producto.nombre}" class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">${producto.nombre}</h3>
+                        <p class="product-price">€${producto.precio.toFixed(2)}</p>
+                        <button class="btn-add-cart" onclick='agregarAlCarrito(${JSON.stringify(producto)})'>
+                            🛒 Agregar al carrito
+                        </button>
+                    </div>
+                `;
+
+                contenedor.appendChild(card);
+            });
+        }
+
+        // =====================================================
+        // CARRUSEL
+        // =====================================================
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function updateCarousel() {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === currentSlide);
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function moveCarousel(direction) {
+            currentSlide = (currentSlide + direction + slides.length) % slides.length;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        // Auto-avance del carrusel cada 5 segundos
+        setInterval(() => moveCarousel(1), 5000);
+
+        // =====================================================
+        // CARGAR FOTO DE PERFIL DESDE LOCALSTORAGE
+        // =====================================================
+
+        function cargarFotoPerfil() {
+            const fotoGuardada = localStorage.getItem('jogoBonitoProfileImg');
+            if (fotoGuardada) {
+                document.getElementById('headerProfileImg').src = fotoGuardada;
+            }
+        }
+
+        // =====================================================
+        // INICIALIZACIÓN
+        // =====================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderizarProductos(camisetas, 'camisetasGrid');
+            renderizarProductos(botas, 'botasGrid');
+            actualizarContadorCarrito();
+            cargarFotoPerfil();
+        });
+
+        // Exportar productos para otras páginas
+        window.camisetas = camisetas;
+        window.botas = botas;
+    </script>
+</body>
+</html>
