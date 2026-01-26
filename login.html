@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Jogo Bonito</title>
+    <!-- Enlace a la hoja de estilos -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts - Tipografía deportiva moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- =====================================================
+         CONTENEDOR PRINCIPAL CON FONDO DE ESTADIO DESENFOCADO
+         ===================================================== -->
+    <div class="login-container" id="loginContainer">
+
+        <!-- Formulario de login centrado en rectángulo blanco transparente -->
+        <div class="login-box" id="loginBox">
+
+            <!-- =====================================================
+                 LOGO Y TÍTULO DE LA TIENDA
+                 ===================================================== -->
+            <div class="logo-section">
+                <h1 class="logo">⚽ JOGO BONITO</h1>
+                <p class="tagline">Tu tienda deportiva de confianza</p>
+            </div>
+
+            <!-- =====================================================
+                 MENSAJE DE ERROR (se muestra dinámicamente)
+                 ===================================================== -->
+            <div class="error-message" id="errorMessage" style="display: none;">
+                <span class="error-icon">⚠️</span>
+                <span id="errorText">Usuario o contraseña incorrectos.</span>
+            </div>
+
+            <!-- =====================================================
+                 FORMULARIO DE AUTENTICACIÓN
+                 Envía datos a login.php mediante POST
+                 ===================================================== -->
+            <form id="loginForm" class="login-form" method="POST" action="login.php">
+
+                <!-- Campo de Usuario -->
+                <div class="input-group">
+                    <label for="usuario">
+                        <span class="input-icon">👤</span> Usuario
+                    </label>
+                    <input 
+                        type="text" 
+                        id="usuario" 
+                        name="usuario" 
+                        placeholder="Ingrese su usuario"
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+
+                <!-- Campo de Contraseña -->
+                <div class="input-group">
+                    <label for="contrasena">
+                        <span class="input-icon">🔒</span> Contraseña
+                    </label>
+                    <input 
+                        type="password" 
+                        id="contrasena" 
+                        name="contrasena" 
+                        placeholder="Ingrese su contraseña"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+
+                <!-- Botón "Ingresar" grande -->
+                <button type="submit" class="btn-ingresar">
+                    INGRESAR
+                </button>
+
+            </form>
+
+            <!-- =====================================================
+                 ENLACES DE AYUDA
+                 ===================================================== -->
+            <div class="help-links">
+                <a href="#">¿Olvidaste tu contraseña?</a>
+                <span class="separator">|</span>
+                <a href="#">Crear cuenta</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =====================================================
+         JAVASCRIPT PARA MANEJAR ERRORES Y TRANSICIONES
+         ===================================================== -->
+    <script>
+        /**
+         * Verificar si hay mensaje de error en la URL
+         * Ejemplo: login.html?error=1
+         */
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Mostrar mensaje de error si existe el parámetro
+            if (urlParams.has('error')) {
+                const errorCode = urlParams.get('error');
+                const errorMessage = document.getElementById('errorMessage');
+                const errorText = document.getElementById('errorText');
+
+                // Diferentes mensajes según el código de error
+                switch(errorCode) {
+                    case '1':
+                        errorText.textContent = 'Usuario o contraseña incorrectos.';
+                        break;
+                    case '2':
+                        errorText.textContent = 'Por favor, complete todos los campos.';
+                        break;
+                    default:
+                        errorText.textContent = 'Ha ocurrido un error. Intente nuevamente.';
+                }
+
+                errorMessage.style.display = 'flex';
+            }
+
+            // Verificar si es login exitoso (para animación)
+            if (urlParams.has('success')) {
+                iniciarTransicionExitosa();
+            }
+        });
+
+        /**
+         * Transición animada al login exitoso
+         * El formulario desaparece con fade-out antes de redirigir
+         */
+        function iniciarTransicionExitosa() {
+            const loginBox = document.getElementById('loginBox');
+            const loginContainer = document.getElementById('loginContainer');
+
+            // Añadir clase de fade-out al formulario
+            loginBox.classList.add('fade-out-animation');
+
+            // Después de la animación (1 segundo), redirigir al home
+            setTimeout(function() {
+                loginContainer.classList.add('fade-out');
+                setTimeout(function() {
+                    window.location.href = 'home.html';
+                }, 500);
+            }, 800);
+        }
+
+        /**
+         * Validación del formulario antes de enviar
+         */
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const usuario = document.getElementById('usuario').value.trim();
+            const contrasena = document.getElementById('contrasena').value.trim();
+
+            // Validación básica del lado del cliente
+            if (usuario === '' || contrasena === '') {
+                e.preventDefault();
+                const errorMessage = document.getElementById('errorMessage');
+                const errorText = document.getElementById('errorText');
+                errorText.textContent = 'Por favor, complete todos los campos.';
+                errorMessage.style.display = 'flex';
+            }
+        });
+    </script>
+</body>
+</html>
