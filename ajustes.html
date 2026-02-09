@@ -428,6 +428,19 @@
         window.location.href = 'login.html';
       });
     }
+        
+    // Cargar datos del usuario desde localStorage
+    window.addEventListener('DOMContentLoaded', function() {
+      const currentUser = localStorage.getItem('currentUser');
+      const userEmail = localStorage.getItem('userEmail');
+      
+      if (currentUser) {
+        document.getElementById('name').value = currentUser;
+      }
+      if (userEmail) {
+        document.getElementById('email').value = userEmail;
+      }
+    });
     </script>
 
 </body>
