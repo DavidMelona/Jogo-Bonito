@@ -174,7 +174,8 @@
         .slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
+            background: #f8f8f8; /* opcional: rellena los bordes */
         }
 
         /* Controles del slider */
@@ -457,7 +458,7 @@
 
         <!-- Acciones: Usuario con icono -->
         <div class="header-actions">
-            <a href="ajustes.html" class="user-link">
+            <a href="login.html" class="user-link">
                 <div class="user-icon">👤</div>
                 <span>Usuario</span>
             </a>
@@ -476,10 +477,10 @@
     <section class="hero-slider">
         <div class="slider-container" id="sliderContainer">
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=1400" alt="Camisetas de fútbol">
+                <img src="img/cabeceradescuento.jpg" alt="Descuento en tienda">
             </div>
             <div class="slide">
-                <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=1400" alt="Estadio de fútbol">
+                <img src="img/cabeceraapuesta.jpg" alt="Apuesta y gana">
             </div>
         </div>
 
@@ -568,19 +569,19 @@
                 id: 1, 
                 nombre: "Camiseta FC Barcelona 24/25", 
                 precio: 89.99, 
-                img: "https://images.unsplash.com/photo-1580087256394-dc596e1c8f4f?w=400"
+                img: "img/camisetafcbarcelona.jpg"
             },
             { 
                 id: 2, 
                 nombre: "Camiseta Real Madrid 24/25", 
                 precio: 89.99, 
-                img: "https://images.unsplash.com/photo-1577212017184-80cc0da11082?w=400"
+                img: "img/camisetarealmadrid.jpg"
             },
             { 
                 id: 3, 
                 nombre: "Camiseta Liverpool FC 24/25", 
                 precio: 84.99, 
-                img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=400"
+                img: "img/camisetaliverpool.jpg"
             }
         ];
 
@@ -588,21 +589,21 @@
         const botas = [
             { 
                 id: 11, 
-                nombre: "Nike Mercurial Vapor 15", 
-                precio: 159.99, 
-                img: "https://images.unsplash.com/photo-1511886929837-354d827aae26?w=400"
+                nombre: "Nike Mercurial Vapor 16 Elite", 
+                precio: 269.99, 
+                img: "img/nikemercurial16elite.jpg"
             },
             { 
                 id: 12, 
-                nombre: "Adidas Predator Edge", 
-                precio: 189.99, 
-                img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"
+                nombre: "F50 Lamine Yamal Elite sin cordones para terreno firme", 
+                precio: 269.99, 
+                img: "img/adidaslamine.jpg"
             },
             { 
                 id: 13, 
-                nombre: "Puma Future Z 1.4", 
-                precio: 169.99, 
-                img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400"
+                nombre: "F50 Messi Elite césped natural seco", 
+                precio: 269.99, 
+                img: "img/adidasmessi.jpg"
             }
         ];
 
