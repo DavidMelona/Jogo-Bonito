@@ -25,7 +25,6 @@
 
         /* =====================================================
            CONTENEDOR PRINCIPAL CON IMAGEN DE FONDO
-           Similar al estilo TopFlex
            ===================================================== */
         .login-container {
             min-height: 100vh;
@@ -35,12 +34,10 @@
             align-items: center;
             position: relative;
 
-            /* Imagen de fondo de futbol a pantalla completa */
             background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1920') 
                         center/cover no-repeat fixed;
         }
 
-        /* Overlay oscuro semi-transparente para mejor legibilidad */
         .login-container::before {
             content: '';
             position: absolute;
@@ -52,21 +49,15 @@
             z-index: 1;
         }
 
-        /* =====================================================
-        LOGO PRINCIPAL (reemplaza el título)
-        ===================================================== */
         .brand-logo {
-        position: relative;
-        z-index: 2;
-        max-width: 320px;
-        width: 80%;
-        margin-bottom: 0px;
-        filter: drop-shadow(3px 3px 10px rgba(0,0,0,0.6));
+            position: relative;
+            z-index: 2;
+            max-width: 320px;
+            width: 80%;
+            margin-bottom: 0px;
+            filter: drop-shadow(3px 3px 10px rgba(0,0,0,0.6));
         }
 
-        /* =====================================================
-           FORMULARIO CENTRADO
-           ===================================================== */
         .login-box {
             position: relative;
             z-index: 2;
@@ -93,7 +84,6 @@
             }
         }
 
-        /* Animación fade-out para transición exitosa */
         .login-box.fade-out-animation {
             animation: fadeOutUp 0.8s ease-out forwards;
         }
@@ -105,9 +95,6 @@
             }
         }
 
-        /* =====================================================
-           LOGO DENTRO DEL FORMULARIO
-           ===================================================== */
         .logo-section {
             text-align: center;
             margin-bottom: 25px;
@@ -126,9 +113,6 @@
             margin-top: 5px;
         }
 
-        /* =====================================================
-           MENSAJE DE ERROR
-           ===================================================== */
         .error-message {
             background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
             color: white;
@@ -148,9 +132,6 @@
             40%, 80% { transform: translateX(5px); }
         }
 
-        /* =====================================================
-           CAMPOS DEL FORMULARIO
-           ===================================================== */
         .login-form {
             display: flex;
             flex-direction: column;
@@ -194,9 +175,6 @@
             color: #aaa;
         }
 
-        /* =====================================================
-           BOTÓN INGRESAR - Grande y llamativo
-           ===================================================== */
         .btn-ingresar {
             background: linear-gradient(135deg, #2d8f2d 0%, #1a5d1a 100%);
             color: white;
@@ -223,9 +201,6 @@
             transform: translateY(0);
         }
 
-        /* =====================================================
-           ENLACES DE AYUDA
-           ===================================================== */
         .help-links {
             text-align: center;
             margin-top: 20px;
@@ -247,9 +222,6 @@
             margin: 0 10px;
         }
 
-        /* =====================================================
-           TEXTO INFERIOR (como TopFlex)
-           ===================================================== */
         .footer-text {
             position: relative;
             z-index: 2;
@@ -269,16 +241,9 @@
             text-decoration: none;
         }
 
-        /* =====================================================
-           RESPONSIVE
-           ===================================================== */
         @media (max-width: 480px) {
-            .brand-title {
-                font-size: 2.5rem;
-            }
-
             .brand-logo {
-            max-width: 220px;
+                max-width: 220px;
             }
             
             .login-box {
@@ -298,153 +263,89 @@
     </style>
 </head>
 <body>
-    <!-- =====================================================
-         CONTENEDOR PRINCIPAL CON FONDO DE ESTADIO
-         ===================================================== -->
-    <div class="login-container" id="loginContainer">
 
-        <!-- Logo principal -->
-        <img src="img/logo.png" alt="Jogo Bonito" class="brand-logo">
+<div class="login-container" id="loginContainer">
 
-        <!-- =====================================================
-             FORMULARIO DE LOGIN CENTRADO
-             ===================================================== -->
-        <div class="login-box" id="loginBox">
+    <img src="img/logo.png" alt="Jogo Bonito" class="brand-logo">
 
-            <!-- Logo dentro del formulario -->
-            <div class="logo-section">
-                <h2 class="logo">⚽ INICIAR SESIÓN</h2>
-                <p class="tagline">Accede a tu cuenta</p>
-            </div>
+    <div class="login-box" id="loginBox">
 
-            <!-- Mensaje de error (oculto por defecto) -->
-            <div class="error-message" id="errorMessage" style="display: none;">
-                <span>⚠️</span>
-                <span id="errorText">Usuario o contraseña incorrectos.</span>
-            </div>
-
-            <!-- Formulario -->
-            <form id="loginForm" class="login-form" action="home.html">
-
-                <!-- Campo Usuario -->
-                <div class="input-group">
-                    <label for="usuario">
-                        👤 Usuario
-                    </label>
-                    <input 
-                        type="text" 
-                        id="usuario" 
-                        name="usuario" 
-                        placeholder="Ingresa tu usuario"
-                        required
-                        autocomplete="username"
-                    >
-                </div>
-
-                <!-- Campo Contraseña -->
-                <div class="input-group">
-                    <label for="contrasena">
-                        🔒 Contraseña
-                    </label>
-                    <input 
-                        type="password" 
-                        id="contrasena" 
-                        name="contrasena" 
-                        placeholder="Ingresa tu contraseña"
-                        required
-                        autocomplete="current-password"
-                    >
-                </div>
-
-                <!-- Botón Ingresar -->
-                <button type="submit" class="btn-ingresar">
-                    INGRESAR
-                </button>
-
-            </form>
-
-            <!-- Enlaces de ayuda -->
-            <div class="help-links">
-                <a href="#">¿Olvidaste tu contraseña?</a>
-                <span class="separator">|</span>
-                <a href="#">Crear cuenta</a>
-            </div>
-
+        <div class="logo-section">
+            <h2 class="logo">⚽ INICIAR SESIÓN</h2>
+            <p class="tagline">Accede a tu cuenta</p>
         </div>
 
-        <!-- Texto inferior estilo TopFlex -->
-        <p class="footer-text">
-            Para cualquier duda relacionada con tu pedido puedes escribir a 
-            <a href="mailto:info@jogobonito.es">info@jogobonito.es</a>
-        </p>
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <span>⚠️</span>
+            <span id="errorText">Usuario o contraseña incorrectos.</span>
+        </div>
+
+        <form id="loginForm" class="login-form" action="home.html">
+
+            <div class="input-group">
+                <label for="usuario">👤 Usuario</label>
+                <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required autocomplete="username">
+            </div>
+
+            <div class="input-group">
+                <label for="contrasena">🔒 Contraseña</label>
+                <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn-ingresar">INGRESAR</button>
+
+        </form>
+
+        <div class="help-links">
+            <a href="#">¿Olvidaste tu contraseña?</a>
+            <span class="separator">|</span>
+            <a href="#">Crear cuenta</a>
+        </div>
 
     </div>
 
-    <!-- =====================================================
-         JAVASCRIPT
-         ===================================================== -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const urlParams = new URLSearchParams(window.location.search);
+    <p class="footer-text">
+        Para cualquier duda relacionada con tu pedido puedes escribir a 
+        <a href="mailto:info@jogobonito.es">info@jogobonito.es</a>
+    </p>
 
-            // Mostrar error si existe
-            if (urlParams.has('error')) {
-                const errorCode = urlParams.get('error');
-                const errorMessage = document.getElementById('errorMessage');
-                const errorText = document.getElementById('errorText');
+</div>
 
-                switch(errorCode) {
-                    case '1':
-                        errorText.textContent = 'Usuario o contraseña incorrectos.';
-                        break;
-                    case '2':
-                        errorText.textContent = 'Por favor, completa todos los campos.';
-                        break;
-                    default:
-                        errorText.textContent = 'Ha ocurrido un error. Intenta nuevamente.';
-                }
+<script>
+document.addEventListener('DOMContentLoaded', function() {
 
-                errorMessage.style.display = 'flex';
-            }
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
 
-            // Transición exitosa
-            if (urlParams.has('success')) {
-                const loginBox = document.getElementById('loginBox');
-                loginBox.classList.add('fade-out-animation');
+        const usuario = document.getElementById('usuario').value.trim();
+        const contrasena = document.getElementById('contrasena').value.trim();
 
-                setTimeout(function() {
-                    window.location.href = 'home.html';
-                }, 800);
-            }
-        });
+        if ((usuario === 'admin' && contrasena === 'admin123') || 
+            (usuario === 'juan' && contrasena === 'juan123')) {
 
-        // Validación antes de enviar
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            const usuario = document.getElementById('usuario').value.trim();
-            const contrasena = document.getElementById('contrasena').value.trim();
-            
-    // Guardar el usuario en localStorage cuando sea válido
-            // Validar usuarios permitidos
-            if ((usuario === 'admin' && contrasena === 'admin123') || (usuario === 'juan' && contrasena === 'juan123')) {      localStorage.setItem('currentUser', usuario);
-      localStorage.setItem('userEmail', usuario + '@gmail.com');
-    }
-                        } else if (usuario !== '' && contrasena !== '') {
-                // Credenciales incorrectas
-                e.preventDefault();
-                const errorMessage = document.getElementById('errorMessage');
-                const errorText = document.getElementById('errorText');
-                errorText.textContent = 'Usuario o contraseña incorrectos.';
-                errorMessage.style.display = 'flex';
-            
+            localStorage.setItem('currentUser', usuario);
+            localStorage.setItem('userEmail', usuario + '@gmail.com');
 
-            if (usuario === '' || contrasena === '') {
-                e.preventDefault();
-                const errorMessage = document.getElementById('errorMessage');
-                const errorText = document.getElementById('errorText');
-                errorText.textContent = 'Por favor, completa todos los campos.';
-                errorMessage.style.display = 'flex';
-            }
-        });
-    </script>
+        } else if (usuario !== '' && contrasena !== '') {
+
+            e.preventDefault();
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            errorText.textContent = 'Usuario o contraseña incorrectos.';
+            errorMessage.style.display = 'flex';
+
+        } else {
+
+            e.preventDefault();
+            const errorMessage = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            errorText.textContent = 'Por favor, completa todos los campos.';
+            errorMessage.style.display = 'flex';
+        }
+
+    });
+
+});
+</script>
+
 </body>
 </html>
