@@ -424,10 +424,17 @@
             const contrasena = document.getElementById('contrasena').value.trim();
             
     // Guardar el usuario en localStorage cuando sea válido
-    if (usuario !== '' && contrasena !== '') {
-      localStorage.setItem('currentUser', usuario);
+            // Validar usuarios permitidos
+            if ((usuario === 'admin' && contrasena === 'admin123') || (usuario === 'juan' && contrasena === 'juan123')) {      localStorage.setItem('currentUser', usuario);
       localStorage.setItem('userEmail', usuario + '@gmail.com');
     }
+                        } else if (usuario !== '' && contrasena !== '') {
+                // Credenciales incorrectas
+                e.preventDefault();
+                const errorMessage = document.getElementById('errorMessage');
+                const errorText = document.getElementById('errorText');
+                errorText.textContent = 'Usuario o contraseña incorrectos.';
+                errorMessage.style.display = 'flex';
             
 
             if (usuario === '' || contrasena === '') {
