@@ -400,8 +400,7 @@
         <div class="header-actions">
             <a href="login.html" class="user-link">
                 <div class="user-icon">👤</div>
-                <span>Usuario</span>
-            </a>
+                <span id="usernameDisplay">Usuario</span>            </a>
             <button class="search-btn">🔍</button>
             <a href="carrito.html" class="cart-btn">
                 🛒
@@ -590,6 +589,12 @@
             renderizarProductos(camisetasClubes, 'clubesGrid');
             renderizarProductos(camisetasSelecciones, 'seleccionesGrid');
             actualizarCarritoUI();
+            
+    // Mostrar el nombre del usuario logueado
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+        document.getElementById('usernameDisplay').textContent = currentUser;
+    }
         });
     </script>
 
