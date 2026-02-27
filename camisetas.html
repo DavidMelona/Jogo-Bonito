@@ -400,7 +400,8 @@
         <div class="header-actions">
             <a href="login.html" class="user-link">
                 <div class="user-icon">👤</div>
-                <span id="usernameDisplay">Usuario</span>            </a>
+                <span>Usuario</span>
+            </a>
             <button class="search-btn">🔍</button>
             <a href="carrito.html" class="cart-btn">
                 🛒
@@ -467,19 +468,19 @@
             { 
                 id: 1, 
                 nombre: "Camiseta FC Barcelona 25/26", 
-                precio: 149.99, 
+                precio: 89.99, 
                 img: "img/camisetafcbarcelona.jpg"
             },
             { 
                 id: 2, 
                 nombre: "Camiseta Real Madrid 25/26", 
-                precio: 149.99, 
+                precio: 89.99, 
                 img: "img/camisetarealmadrid.jpg"
             },
             { 
                 id: 3, 
                 nombre: "Camiseta Liverpool FC 25/26", 
-                precio: 149.99, 
+                precio: 84.99, 
                 img: "img/camisetaliverpool.jpg"
             }
         ];
@@ -489,19 +490,19 @@
             { 
                 id: 4, 
                 nombre: "Camiseta España Mundial 2026", 
-                precio: 99.99, 
+                precio: 89.99, 
                 img: "img/camisetaespaña.jpg"
             },
             { 
                 id: 5, 
                 nombre: "Camiseta Argentina Mundial 2026", 
-                precio: 99.99, 
+                precio: 89.99, 
                 img: "img/camisetaargentina.jpg"
             },
             { 
                 id: 6, 
                 nombre: "Camiseta Alemania Mundial 2026", 
-                precio: 99.99, 
+                precio: 89.99, 
                 img: "img/camisetaalemania.jpg"
             }
         ];
@@ -589,12 +590,6 @@
             renderizarProductos(camisetasClubes, 'clubesGrid');
             renderizarProductos(camisetasSelecciones, 'seleccionesGrid');
             actualizarCarritoUI();
-            
-    // Mostrar el nombre del usuario logueado
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-        document.getElementById('usernameDisplay').textContent = currentUser;
-    }
         });
     </script>
 
