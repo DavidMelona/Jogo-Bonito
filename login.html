@@ -1,351 +1,206 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Jogo Bonito</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Jogo Bonito</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        /* =====================================================
-           RESET Y BASE
-           ===================================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    /* Estilos generales */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow: hidden; }
 
-        body {
-            font-family: 'Montserrat', Arial, sans-serif;
-            min-height: 100vh;
-            overflow: hidden;
-        }
+    /* Fondo de estadio a pantalla completa con oscurecimiento encima */
+    .login-container {
+      min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; position: relative;
+      background: url('https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1920') center/cover no-repeat fixed;
+    }
+    .login-container::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1;
+    }
 
-        /* =====================================================
-           CONTENEDOR PRINCIPAL CON IMAGEN DE FONDO
-           ===================================================== */
-        .login-container {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+    /* Logo grande encima del formulario */
+    .brand-logo {
+      position: relative; z-index: 2;
+      max-width: 320px; width: 80%;
+      filter: drop-shadow(3px 3px 10px rgba(0,0,0,0.6));
+    }
 
-            background: url('img/fondologin.jpg') 
-                        center/cover no-repeat fixed;
-        }
+    /* Caja blanca del formulario, aparece con animación */
+    .login-box {
+      position: relative; z-index: 2;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+      width: 100%; max-width: 400px; padding: 40px 35px; margin: 0 20px;
+      border-radius: 15px; box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+      animation: fadeInUp 0.8s ease-out;
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1;
-        }
+    /* Animación al entrar correctamente */
+    .login-box.fade-out-animation { animation: fadeOutUp 0.8s ease-out forwards; }
+    @keyframes fadeOutUp {
+      to { opacity: 0; transform: translateY(-30px) scale(0.95); }
+    }
 
-        .brand-logo {
-            position: relative;
-            z-index: 2;
-            max-width: 320px;
-            width: 80%;
-            margin-bottom: 0px;
-            filter: drop-shadow(3px 3px 10px rgba(0,0,0,0.6));
-        }
+    /* Título y subtítulo dentro del formulario */
+    .logo-section { text-align: center; margin-bottom: 25px; }
+    .logo { color: #1a5d1a; font-size: 1.8rem; font-weight: 700; }
+    .tagline { color: #666; font-size: 0.85rem; margin-top: 5px; }
 
-        .login-box {
-            position: relative;
-            z-index: 2;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            width: 100%;
-            max-width: 400px;
-            padding: 40px 35px;
-            margin: 0 20px;
-            border-radius: 15px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            animation: fadeInUp 0.8s ease-out;
-        }
+    /* Mensaje de error en rojo */
+    .error-message {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+      color: white; padding: 12px 15px; border-radius: 10px;
+      margin-bottom: 20px; font-size: 0.9rem;
+      display: flex; align-items: center; gap: 8px;
+      animation: shake 0.5s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-5px); }
+      40%, 80% { transform: translateX(5px); }
+    }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    /* Campos del formulario */
+    .login-form { display: flex; flex-direction: column; gap: 18px; }
+    .input-group { display: flex; flex-direction: column; gap: 6px; }
+    .input-group label { color: #333; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 6px; }
+    .input-group input {
+      width: 100%; padding: 14px 16px; font-size: 1rem; font-family: inherit;
+      border: 2px solid #e0e0e0; border-radius: 10px; background: #f8f9fa;
+      transition: all 0.3s;
+    }
+    .input-group input:focus { outline: none; border-color: #1a5d1a; background: white; box-shadow: 0 0 0 4px rgba(26,93,26,0.1); }
+    .input-group input::placeholder { color: #aaa; }
 
-        .login-box.fade-out-animation {
-            animation: fadeOutUp 0.8s ease-out forwards;
-        }
+    /* Botón de ingresar */
+    .btn-ingresar {
+      background: linear-gradient(135deg, #2d8f2d, #1a5d1a);
+      color: white; padding: 16px 30px; font-size: 1.1rem; font-weight: 700;
+      font-family: inherit; border: none; border-radius: 10px; cursor: pointer;
+      margin-top: 10px; box-shadow: 0 4px 15px rgba(26,93,26,0.4); transition: all 0.3s;
+    }
+    .btn-ingresar:hover { background: linear-gradient(135deg, #3da03d, #2d8f2d); transform: translateY(-2px); }
+    .btn-ingresar:active { transform: translateY(0); }
 
-        @keyframes fadeOutUp {
-            to {
-                opacity: 0;
-                transform: translateY(-30px) scale(0.95);
-            }
-        }
+    /* Links de ayuda debajo del botón */
+    .help-links { text-align: center; margin-top: 20px; font-size: 0.85rem; }
+    .help-links a { color: #1a5d1a; text-decoration: none; }
+    .help-links a:hover { text-decoration: underline; }
+    .separator { color: #ccc; margin: 0 10px; }
 
-        .logo-section {
-            text-align: center;
-            margin-bottom: 25px;
-        }
+    /* Texto de contacto al final */
+    .footer-text {
+      position: relative; z-index: 2; color: white; text-align: center;
+      margin-top: 30px; font-size: 0.9rem; text-transform: uppercase;
+      letter-spacing: 1px; text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+      max-width: 500px; line-height: 1.6;
+    }
+    .footer-text a { color: #ffc107; text-decoration: none; }
 
-        .logo {
-            color: #1a5d1a;
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .tagline {
-            color: #666;
-            font-size: 0.85rem;
-            margin-top: 5px;
-        }
-
-        .error-message {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
-            color: white;
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            animation: shake 0.5s ease-in-out;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-5px); }
-            40%, 80% { transform: translateX(5px); }
-        }
-
-        .login-form {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .input-group label {
-            color: #333;
-            font-weight: 600;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 1rem;
-            font-family: inherit;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            background: #f8f9fa;
-            transition: all 0.3s ease;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: #1a5d1a;
-            background: white;
-            box-shadow: 0 0 0 4px rgba(26, 93, 26, 0.1);
-        }
-
-        .input-group input::placeholder {
-            color: #aaa;
-        }
-
-        .btn-ingresar {
-            background: linear-gradient(135deg, #2d8f2d 0%, #1a5d1a 100%);
-            color: white;
-            padding: 16px 30px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            font-family: inherit;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(26, 93, 26, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .btn-ingresar:hover {
-            background: linear-gradient(135deg, #3da03d 0%, #2d8f2d 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(26, 93, 26, 0.5);
-        }
-
-        .btn-ingresar:active {
-            transform: translateY(0);
-        }
-
-        .help-links {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.85rem;
-        }
-
-        .help-links a {
-            color: #1a5d1a;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .help-links a:hover {
-            text-decoration: underline;
-        }
-
-        .separator {
-            color: #ccc;
-            margin: 0 10px;
-        }
-
-        .footer-text {
-            position: relative;
-            z-index: 2;
-            color: white;
-            text-align: center;
-            margin-top: 30px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-            max-width: 500px;
-            line-height: 1.6;
-        }
-
-        .footer-text a {
-            color: #ffc107;
-            text-decoration: none;
-        }
-
-        @media (max-width: 480px) {
-            .brand-logo {
-                max-width: 220px;
-            }
-            
-            .login-box {
-                padding: 30px 25px;
-                margin: 0 15px;
-            }
-
-            .logo {
-                font-size: 1.5rem;
-            }
-
-            .btn-ingresar {
-                padding: 14px 25px;
-                font-size: 1rem;
-            }
-        }
-    </style>
+    /* En móvil, ajusta tamaños */
+    @media (max-width: 480px) {
+      .brand-logo { max-width: 220px; }
+      .login-box { padding: 30px 25px; margin: 0 15px; }
+      .logo { font-size: 1.5rem; }
+      .btn-ingresar { padding: 14px 25px; font-size: 1rem; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="login-container" id="loginContainer">
+  <!-- Pantalla de login con fondo de estadio -->
+  <div class="login-container" id="loginContainer">
 
+    <!-- Logo encima del formulario -->
     <img src="img/logo.png" alt="Jogo Bonito" class="brand-logo">
 
+    <!-- Caja del formulario -->
     <div class="login-box" id="loginBox">
 
-        <div class="logo-section">
-            <h2 class="logo">⚽ INICIAR SESIÓN</h2>
-            <p class="tagline">Accede a tu cuenta</p>
+      <!-- Título -->
+      <div class="logo-section">
+        <h2 class="logo">⚽ INICIAR SESIÓN</h2>
+        <p class="tagline">Accede a tu cuenta</p>
+      </div>
+
+      <!-- Mensaje de error (oculto hasta que haya un fallo) -->
+      <div class="error-message" id="errorMessage" style="display:none;">
+        <span>⚠️</span>
+        <span id="errorText">Usuario o contraseña incorrectos.</span>
+      </div>
+
+      <!-- Formulario de usuario y contraseña -->
+      <form id="loginForm" class="login-form">
+        <div class="input-group">
+          <label for="usuario">👤 Usuario</label>
+          <input type="text" id="usuario" placeholder="Ingresa tu usuario" required autocomplete="username">
         </div>
-
-        <div class="error-message" id="errorMessage" style="display: none;">
-            <span>⚠️</span>
-            <span id="errorText">Usuario o contraseña incorrectos.</span>
+        <div class="input-group">
+          <label for="contrasena">🔒 Contraseña</label>
+          <input type="password" id="contrasena" placeholder="Ingresa tu contraseña" required autocomplete="current-password">
         </div>
+        <button type="submit" class="btn-ingresar">INGRESAR</button>
+      </form>
 
-        <form id="loginForm" class="login-form" action="home.html">
-
-            <div class="input-group">
-                <label for="usuario">👤 Usuario</label>
-                <input type="text" id="usuario" name="usuario" placeholder="Ingresa tu usuario" required autocomplete="username">
-            </div>
-
-            <div class="input-group">
-                <label for="contrasena">🔒 Contraseña</label>
-                <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña" required autocomplete="current-password">
-            </div>
-
-            <button type="submit" class="btn-ingresar">INGRESAR</button>
-
-        </form>
-
-        <div class="help-links">
-            <a href="#">¿Olvidaste tu contraseña?</a>
-            <span class="separator">|</span>
-            <a href="#">Crear cuenta</a>
-        </div>
-
+      <!-- Links de ayuda -->
+      <div class="help-links">
+        <a href="#">¿Olvidaste tu contraseña?</a>
+        <span class="separator">|</span>
+        <a href="#">Crear cuenta</a>
+      </div>
     </div>
 
+    <!-- Texto de contacto -->
     <p class="footer-text">
-        Para cualquier duda relacionada con tu pedido puedes escribir a 
-        <a href="mailto:info@jogobonito.es">info@jogobonito.es</a>
+      Para cualquier duda relacionada con tu pedido puedes escribir a
+      <a href="mailto:info@jogobonito.es">info@jogobonito.es</a>
     </p>
+  </div>
 
-</div>
+  <script>
+    // Usuarios válidos para entrar a la tienda
+    const usuariosValidos = {
+      'admin': 'admin123',
+      'juan':  'juan123'
+    };
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-
+    // Al enviar el formulario, comprueba si el usuario y contraseña son correctos
     document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-        const usuario = document.getElementById('usuario').value.trim();
-        const contrasena = document.getElementById('contrasena').value.trim();
+      const usuario = document.getElementById('usuario').value.trim();
+      const contrasena = document.getElementById('contrasena').value.trim();
+      const errorMessage = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
 
-        if ((usuario === 'admin' && contrasena === 'admin123') || 
-            (usuario === 'juan' && contrasena === 'juan123')) {
+      // Si los campos están vacíos, muestra error
+      if (!usuario || !contrasena) {
+        errorText.textContent = 'Por favor, completa todos los campos.';
+        errorMessage.style.display = 'flex';
+        return;
+      }
 
-            localStorage.setItem('currentUser', usuario);
-            localStorage.setItem('userEmail', usuario + '@gmail.com');
-
-        } else if (usuario !== '' && contrasena !== '') {
-
-            e.preventDefault();
-            const errorMessage = document.getElementById('errorMessage');
-            const errorText = document.getElementById('errorText');
-            errorText.textContent = 'Usuario o contraseña incorrectos.';
-            errorMessage.style.display = 'flex';
-
-        } else {
-
-            e.preventDefault();
-            const errorMessage = document.getElementById('errorMessage');
-            const errorText = document.getElementById('errorText');
-            errorText.textContent = 'Por favor, completa todos los campos.';
-            errorMessage.style.display = 'flex';
-        }
-
+      // Si el usuario existe y la contraseña es correcta, entra
+      if (usuariosValidos[usuario] && usuariosValidos[usuario] === contrasena) {
+        localStorage.setItem('currentUser', usuario);
+        localStorage.setItem('userEmail', usuario + '@gmail.com');
+        // Anima la caja y redirige a home
+        document.getElementById('loginBox').classList.add('fade-out-animation');
+        setTimeout(() => window.location.href = 'home.html', 800);
+      } else {
+        // Si el usuario o la contraseña no coinciden, muestra error
+        errorText.textContent = 'Usuario o contraseña incorrectos.';
+        errorMessage.style.display = 'flex';
+      }
     });
-
-});
-</script>
+  </script>
 
 </body>
 </html>
