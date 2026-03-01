@@ -1,600 +1,254 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Botas - Jogo Bonito</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Botas - Jogo Bonito</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
 
-    <style>
-        /* =====================================================
-           RESET Y BASE
-           ===================================================== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    /* Estilos generales */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background: #fff; color: #333; }
+    a { text-decoration: none; color: inherit; }
 
-        body {
-            font-family: 'Montserrat', Arial, sans-serif;
-            background: #fff;
-            color: #333;
-        }
+    /* Barra de arriba con logo, nav y carrito */
+    .main-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 40px; background: #fff;
+      border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; }
+    .logo span { color: #1a5d1a; }
+    .main-nav { display: flex; gap: 40px; }
+    .nav-item { font-weight: 600; color: #333; padding: 10px 0; border-bottom: 2px solid transparent; }
+    .nav-item:hover, .nav-item.active { color: #1a5d1a; border-bottom-color: #1a5d1a; }
+    .header-actions { display: flex; align-items: center; gap: 20px; }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+    /* Icono de usuario + nombre al lado */
+    .user-link { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; color: #333; }
+    .user-link:hover { color: #1a5d1a; }
+    .user-icon {
+      width: 32px; height: 32px; background: #e0e0e0;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
 
-        /* =====================================================
-           HEADER (igual que Home)
-           ===================================================== */
-        .main-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 40px;
-            background: #fff;
-            border-bottom: 1px solid #eee;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    /* Botón de búsqueda (lupa) */
+    .search-btn { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #333; }
+    .search-btn:hover { color: #1a5d1a; }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: #1a1a1a;
-        }
+    .cart-btn { position: relative; font-size: 1.3rem; }
+    .cart-count {
+      position: absolute; top: -8px; right: -10px;
+      background: #1a5d1a; color: white; font-size: 0.7rem; font-weight: 600;
+      width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cart-total { font-size: 0.9rem; font-weight: 600; }
 
-        .logo span {
-            color: #1a5d1a;
-        }
+    /* Banner grande con imagen y título encima */
+    .hero-banner { width: 100%; height: 400px; overflow: hidden; position: relative; }
+    .hero-banner img { width: 100%; height: 100%; object-fit: cover; }
+    .banner-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+      display: flex; align-items: center; justify-content: center;
+    }
+    .banner-title {
+      color: white; font-size: 3.5rem; font-weight: 800;
+      font-style: italic; text-transform: uppercase; letter-spacing: 5px;
+    }
 
-        .main-nav {
-            display: flex;
-            gap: 40px;
-        }
+    /* Sección de productos con título y cuadrícula */
+    .products-section { padding: 50px 40px; max-width: 1200px; margin: 0 auto; }
+    .section-title { font-size: 1.8rem; font-weight: 800; font-style: italic; text-transform: uppercase; margin-bottom: 30px; }
 
-        .nav-item {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #333;
-            padding: 10px 0;
-            transition: color 0.3s ease;
-            border-bottom: 2px solid transparent;
-        }
+    /* Cuadrícula de tarjetas (3 columnas en escritorio) */
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+    @media (max-width: 900px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .products-grid { grid-template-columns: 1fr; } }
 
-        .nav-item:hover,
-        .nav-item.active {
-            color: #1a5d1a;
-            border-bottom-color: #1a5d1a;
-        }
+    /* Tarjeta de cada producto */
+    .product-card { background: #f8f8f8; border-radius: 15px; overflow: hidden; transition: all 0.3s; }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.12); }
+    .product-card img { width: 100%; height: 280px; object-fit: contain; padding: 20px; }
+    .product-info { padding: 20px; text-align: center; background: white; }
+    .product-name { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .product-price { font-size: 1.3rem; font-weight: 800; color: #1a5d1a; margin-bottom: 15px; }
 
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
+    /* Botón de añadir al carrito */
+    .btn-add {
+      background: #1a5d1a; color: white; border: none;
+      padding: 12px 30px; border-radius: 8px;
+      font-size: 0.9rem; font-weight: 600; cursor: pointer; width: 100%;
+    }
+    .btn-add:hover { background: #2d8f2d; }
 
-        .user-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: #333;
-            transition: color 0.3s ease;
-        }
+    /* Notificación que aparece abajo a la derecha al añadir un producto */
+    .notification {
+      position: fixed; bottom: 30px; right: 30px;
+      background: #1a5d1a; color: white; padding: 15px 25px;
+      border-radius: 10px; font-weight: 600;
+      opacity: 0; transform: translateY(100px); transition: all 0.3s; z-index: 3000;
+    }
+    .notification.show { opacity: 1; transform: translateY(0); }
 
-        .user-link:hover {
-            color: #1a5d1a;
-        }
+    /* Pie de página */
+    .main-footer { background: #1a1a1a; color: #fff; padding: 40px; text-align: center; margin-top: 50px; }
+    .footer-logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; }
+    .footer-logo span { color: #1a5d1a; }
+    .footer-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; }
+    .footer-links a { color: #aaa; font-size: 0.85rem; }
+    .footer-links a:hover { color: #fff; }
+    .footer-copy { color: #666; font-size: 0.8rem; }
 
-        .user-icon {
-            width: 32px;
-            height: 32px;
-            background: #e0e0e0;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-        }
-
-        .search-btn, .cart-btn {
-            background: none;
-            border: none;
-            font-size: 1.3rem;
-            cursor: pointer;
-            color: #333;
-            transition: color 0.3s ease;
-        }
-
-        .search-btn:hover, .cart-btn:hover {
-            color: #1a5d1a;
-        }
-
-        .cart-btn {
-            position: relative;
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -8px;
-            right: -10px;
-            background: #1a5d1a;
-            color: white;
-            font-size: 0.7rem;
-            font-weight: 600;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cart-total {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        /* =====================================================
-           IMAGEN BANNER ESTÁTICA
-           ===================================================== */
-        .hero-banner {
-            width: 100%;
-            height: 400px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .hero-banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .banner-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .banner-title {
-            color: white;
-            font-size: 3.5rem;
-            font-weight: 800;
-            font-style: italic;
-            text-transform: uppercase;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
-            letter-spacing: 5px;
-        }
-
-        /* =====================================================
-           SECCIÓN DE PRODUCTOS
-           ===================================================== */
-        .products-section {
-            padding: 50px 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            font-style: italic;
-            color: #1a1a1a;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        /* Grid de 3 productos */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        @media (max-width: 900px) {
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Tarjeta de producto */
-        .product-card {
-            background: #f8f8f8;
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 280px;
-            object-fit: contain;
-            padding: 20px;
-            background: #f8f8f8;
-        }
-
-        .product-info {
-            padding: 20px;
-            text-align: center;
-            background: white;
-        }
-
-        .product-name {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .product-price {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #1a5d1a;
-            margin-bottom: 15px;
-        }
-
-        /* Botón añadir siempre visible */
-        .btn-add {
-            background: #1a5d1a;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .btn-add:hover {
-            background: #2d8f2d;
-            transform: scale(1.02);
-        }
-
-        /* =====================================================
-           FOOTER (igual que Home)
-           ===================================================== */
-        .main-footer {
-            background: #1a1a1a;
-            color: #fff;
-            padding: 40px;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-        }
-
-        .footer-logo span {
-            color: #1a5d1a;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 20px;
-        }
-
-        .footer-links a {
-            color: #aaa;
-            font-size: 0.85rem;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: #fff;
-        }
-
-        .footer-copy {
-            color: #666;
-            font-size: 0.8rem;
-        }
-
-        /* =====================================================
-           NOTIFICACIÓN
-           ===================================================== */
-        .notification {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #1a5d1a;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 10px;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 3000;
-        }
-
-        .notification.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* =====================================================
-           RESPONSIVE
-           ===================================================== */
-        @media (max-width: 900px) {
-            .main-header {
-                flex-wrap: wrap;
-                padding: 15px 20px;
-            }
-
-            .main-nav {
-                order: 3;
-                width: 100%;
-                justify-content: center;
-                margin-top: 15px;
-                gap: 25px;
-            }
-
-            .hero-banner {
-                height: 280px;
-            }
-
-            .banner-title {
-                font-size: 2.5rem;
-            }
-
-            .products-section {
-                padding: 30px 20px;
-            }
-
-            .section-title {
-                font-size: 1.4rem;
-            }
-        }
-    </style>
+    /* En móvil, el header se reorganiza */
+    @media (max-width: 900px) {
+      .main-header { flex-wrap: wrap; padding: 15px 20px; }
+      .main-nav { order: 3; width: 100%; justify-content: center; margin-top: 15px; gap: 25px; }
+      .hero-banner { height: 280px; }
+      .banner-title { font-size: 2.5rem; }
+      .products-section { padding: 30px 20px; }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- =====================================================
-         HEADER (igual que Home)
-         ===================================================== -->
-    <header class="main-header">
-        <a href="home.html" class="logo">JOGO <span>BONITO</span></a>
+  <!-- Cabecera con logo, navegación y carrito -->
+  <header class="main-header">
+    <a href="home.html" class="logo">JOGO <span>BONITO</span></a>
+    <nav class="main-nav">
+      <a href="home.html" class="nav-item">Home</a>
+      <a href="camisetas.html" class="nav-item">Camisetas</a>
+      <a href="botas.html" class="nav-item active">Botas</a>
+    </nav>
+    <div class="header-actions">
+      <!-- Icono de usuario + nombre del usuario logueado -->
+      <a href="ajustes.html" class="user-link">
+        <div class="user-icon">👤</div>
+        <span id="userName">Usuario</span>
+      </a>
+      <!-- Lupa de búsqueda -->
+      <button class="search-btn">🔍</button>
+      <a href="carrito.html" class="cart-btn">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </a>
+      <span class="cart-total" id="cartTotal">0,00 €</span>
+    </div>
+  </header>
 
-        <nav class="main-nav">
-            <a href="home.html" class="nav-item">Home</a>
-            <a href="camisetas.html" class="nav-item">Camisetas</a>
-            <a href="botas.html" class="nav-item active">Botas</a>
-        </nav>
+  <!-- Banner con imagen de fondo y título -->
+  <section class="hero-banner">
+    <img src="img/cabecerabotas.jpg" alt="Botas de fútbol">
+    <div class="banner-overlay">
+      <h1 class="banner-title">Botas</h1>
+    </div>
+  </section>
 
-        <div class="header-actions">
-            <a href="login.html" class="user-link">
-                <div class="user-icon">👤</div>
-                <span id="usernameDisplay">Usuario</span>            </a>
-            <button class="search-btn">🔍</button>
-            <a href="carrito.html" class="cart-btn">
-                🛒
-                <span class="cart-count" id="cartCount">0</span>
-            </a>
-            <span class="cart-total" id="cartTotal">0,00 €</span>
-        </div>
-    </header>
+  <!-- Sección de botas Nike -->
+  <section class="products-section">
+    <h2 class="section-title">Botas Nike</h2>
+    <div class="products-grid" id="nikeGrid"></div>
+  </section>
 
-    <!-- =====================================================
-         BANNER IMAGEN ESTÁTICA
-         ===================================================== -->
-    <section class="hero-banner">
-        <img src="img/cabecerabotas.jpg" alt="Botas de fútbol">
-        <div class="banner-overlay">
-            <h1 class="banner-title">Botas</h1>
-        </div>
-    </section>
+  <!-- Sección de botas Adidas -->
+  <section class="products-section">
+    <h2 class="section-title">Botas Adidas</h2>
+    <div class="products-grid" id="adidasGrid"></div>
+  </section>
 
-    <!-- =====================================================
-         PRIMERA SECCIÓN - 3 BOTAS NIKE
-         ===================================================== -->
-    <section class="products-section">
-        <h2 class="section-title">Botas Nike</h2>
-        <div class="products-grid" id="nikeGrid">
-            <!-- 3 productos -->
-        </div>
-    </section>
+  <!-- Pie de página -->
+  <footer class="main-footer">
+    <div class="footer-logo">JOGO <span>BONITO</span></div>
+    <div class="footer-links">
+      <a href="home.html">Home</a>
+      <a href="camisetas.html">Camisetas</a>
+      <a href="botas.html">Botas</a>
+      <a href="carrito.html">Carrito</a>
+    </div>
+    <p class="footer-copy">© 2026 Jogo Bonito - Tu tienda de fútbol de confianza | Reus, Catalunya</p>
+  </footer>
 
-    <!-- =====================================================
-         SEGUNDA SECCIÓN - 3 BOTAS ADIDAS
-         ===================================================== -->
-    <section class="products-section">
-        <h2 class="section-title">Botas Adidas</h2>
-        <div class="products-grid" id="adidasGrid">
-            <!-- 3 productos -->
-        </div>
-    </section>
+  <script>
+    // Lista de botas Nike
+    const botasNike = [
+      { id: 11, nombre: "Nike Mercurial Vapor 16 Elite",  precio: 269.99, img: "img/nikemercurial16elite.jpg" },
+      { id: 12, nombre: "Nike Tempo Ligera Pro",          precio: 149.99, img: "img/adidastempo.jpg" },
+      { id: 13, nombre: "Nike Phantom 6 High Elite",      precio: 279.99, img: "img/adidasphantom.jpg" }
+    ];
 
-    <!-- =====================================================
-         FOOTER (igual que Home)
-         ===================================================== -->
-    <footer class="main-footer">
-        <div class="footer-logo">JOGO <span>BONITO</span></div>
-        <div class="footer-links">
-            <a href="home.html">Home</a>
-            <a href="camisetas.html">Camisetas</a>
-            <a href="botas.html">Botas</a>
-            <a href="carrito.html">Carrito</a>
-        </div>
-        <p class="footer-copy">© 2026 Jogo Bonito - Tu tienda de fútbol de confianza | Reus, Catalunya</p>
-    </footer>
+    // Lista de botas Adidas
+    const botasAdidas = [
+      { id: 14, nombre: "Adidas F50 Lamine Yamal Elite",  precio: 269.99, img: "img/adidaslamine.jpg" },
+      { id: 15, nombre: "Adidas F50 Messi Elite",         precio: 269.99, img: "img/adidasmessi.jpg" },
+      { id: 16, nombre: "Adidas Predator Elite",          precio: 269.99, img: "img/adidaspredator.jpg" }
+    ];
 
-    <!-- =====================================================
-         JAVASCRIPT
-         ===================================================== -->
-    <script>
-        // =====================================================
-        // BASE DE DATOS - 6 BOTAS (3 + 3)
-        // =====================================================
+    // Carga el carrito guardado o empieza vacío
+    let carrito = JSON.parse(localStorage.getItem('jogoBonitoCart')) || [];
 
-        // Botas Nike (3)
-        const botasNike = [
-            { 
-                id: 11, 
-                nombre: "Nike Mercurial Vapor 16 Elite", 
-                precio: 269.99, 
-                img: "img/nikemercurial16elite.jpg"
-            },
-            { 
-                id: 12, 
-                nombre: "Nike Tempo Ligera Pro", 
-                precio: 149.99, 
-                img: "img/adidastempo.jpg"
-            },
-            { 
-                id: 13, 
-                nombre: "Nike Phantom 6 High Elite", 
-                precio: 279.99, 
-                img: "img/adidasphantom.jpg"
-            }
-        ];
-
-        // Botas Adidas (3)
-        const botasAdidas = [
-            { 
-                id: 14, 
-                nombre: "Adidas F50 Lamine Yamal Elite sin cordones para terreno firme", 
-                precio: 269.99, 
-                img: "img/adidaslamine.jpg"
-            },
-            { 
-                id: 15, 
-                nombre: "Adidas F50 Messi Elite césped natural seco", 
-                precio: 269.99, 
-                img: "img/adidasmessi.jpg"
-            },
-            { 
-                id: 16, 
-                nombre: "Adidas Predator Elite césped artificial sin cordones ", 
-                precio: 269.99, 
-                img: "img/adidaspredator.jpg"
-            }
-        ];
-
-        // =====================================================
-        // CARRITO
-        // =====================================================
-
-        let carrito = JSON.parse(localStorage.getItem('jogoBonitoCart')) || [];
-
-        function guardarCarrito() {
-            localStorage.setItem('jogoBonitoCart', JSON.stringify(carrito));
-            actualizarCarritoUI();
-        }
-
-        function actualizarCarritoUI() {
-            const countEl = document.getElementById('cartCount');
-            const totalEl = document.getElementById('cartTotal');
-
-            const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
-            const totalPrecio = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
-
-            countEl.textContent = totalItems;
-            totalEl.textContent = totalPrecio.toFixed(2) + ' €';
-        }
-
-        function agregarAlCarrito(producto) {
-            const existente = carrito.find(item => item.id === producto.id);
-
-            if (existente) {
-                existente.cantidad++;
-            } else {
-                carrito.push({ ...producto, cantidad: 1 });
-            }
-
-            guardarCarrito();
-            mostrarNotificacion('✅ Añadido al carrito');
-        }
-
-        function mostrarNotificacion(mensaje) {
-            const notif = document.createElement('div');
-            notif.className = 'notification';
-            notif.textContent = mensaje;
-            document.body.appendChild(notif);
-
-            setTimeout(() => notif.classList.add('show'), 10);
-            setTimeout(() => {
-                notif.classList.remove('show');
-                setTimeout(() => notif.remove(), 300);
-            }, 2000);
-        }
-
-        // =====================================================
-        // RENDERIZAR PRODUCTOS
-        // =====================================================
-
-        function renderizarProductos(productos, contenedorId) {
-            const contenedor = document.getElementById(contenedorId);
-            contenedor.innerHTML = '';
-
-            productos.forEach((producto) => {
-                const card = document.createElement('div');
-                card.className = 'product-card';
-
-                card.innerHTML = `
-                    <img src="${producto.img}" alt="${producto.nombre}">
-                    <div class="product-info">
-                        <p class="product-name">${producto.nombre}</p>
-                        <p class="product-price">${producto.precio.toFixed(2)}€</p>
-                        <button class="btn-add" onclick='agregarAlCarrito(${JSON.stringify(producto)})'>
-                            🛒 Añadir al carrito
-                        </button>
-                    </div>
-                `;
-
-                contenedor.appendChild(card);
-            });
-        }
-
-        // =====================================================
-        // INICIALIZACIÓN
-        // =====================================================
-
-        document.addEventListener('DOMContentLoaded', function() {
-            renderizarProductos(botasNike, 'nikeGrid');
-            renderizarProductos(botasAdidas, 'adidasGrid');
-            actualizarCarritoUI();
-            
-    // Mostrar el nombre del usuario logueado
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-        document.getElementById('usernameDisplay').textContent = currentUser;
+    // Guarda el carrito y actualiza el contador del header
+    function guardarCarrito() {
+      localStorage.setItem('jogoBonitoCart', JSON.stringify(carrito));
+      const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+      const totalPrecio = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+      document.getElementById('cartCount').textContent = totalItems;
+      document.getElementById('cartTotal').textContent = totalPrecio.toFixed(2) + ' €';
     }
-        });
-    </script>
+
+    // Añade un producto al carrito (si ya está, aumenta la cantidad)
+    function agregarAlCarrito(producto) {
+      const existente = carrito.find(item => item.id === producto.id);
+      if (existente) {
+        existente.cantidad++;
+      } else {
+        carrito.push({ ...producto, cantidad: 1 });
+      }
+      guardarCarrito();
+      mostrarNotificacion('✅ Añadido al carrito');
+    }
+
+    // Muestra un aviso verde que desaparece solo
+    function mostrarNotificacion(mensaje) {
+      const notif = document.createElement('div');
+      notif.className = 'notification';
+      notif.textContent = mensaje;
+      document.body.appendChild(notif);
+      setTimeout(() => notif.classList.add('show'), 10);
+      setTimeout(() => { notif.classList.remove('show'); setTimeout(() => notif.remove(), 300); }, 2000);
+    }
+
+    // Crea las tarjetas de producto y las mete en el contenedor indicado
+    function renderizarProductos(productos, contenedorId) {
+      const contenedor = document.getElementById(contenedorId);
+      productos.forEach(producto => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${producto.img}" alt="${producto.nombre}">
+          <div class="product-info">
+            <p class="product-name">${producto.nombre}</p>
+            <p class="product-price">${producto.precio.toFixed(2)}€</p>
+            <button class="btn-add" onclick='agregarAlCarrito(${JSON.stringify(producto)})'>
+              🛒 Añadir al carrito
+            </button>
+          </div>
+        `;
+        contenedor.appendChild(card);
+      });
+    }
+
+    // Al cargar la página, pinta los productos, actualiza el carrito y muestra el nombre del usuario
+    document.addEventListener('DOMContentLoaded', function() {
+      renderizarProductos(botasNike, 'nikeGrid');
+      renderizarProductos(botasAdidas, 'adidasGrid');
+      guardarCarrito();
+
+      // Coge el nombre guardado al hacer login y lo muestra en el header
+      const nombre = localStorage.getItem('currentUser');
+      if (nombre) document.getElementById('userName').textContent = nombre;
+    });
+  </script>
 
 </body>
 </html>
