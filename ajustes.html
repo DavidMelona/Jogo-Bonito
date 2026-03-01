@@ -4,67 +4,110 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ajustes - Jogo Bonito</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
   <style>
-    /* =====================================================
-    RESET Y BASE
-    ===================================================== */
+    /* Estilos generales de la página */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Montserrat', Arial, sans-serif; background: #f9f9f9; color: #333; }
+    body { font-family: 'Montserrat', sans-serif; background: #f9f9f9; color: #333; }
     a { text-decoration: none; color: inherit; }
 
-    /* =====================================================
-    HEADER
-    ===================================================== */
-    .main-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 40px; background: #fff; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 1000; }
-    .logo { font-size: 1.8rem; font-weight: 800; letter-spacing: 2px; color: #1a1a1a; }
+    /* Barra de arriba con logo y navegación */
+    .main-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 40px; background: #fff;
+      border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; }
     .logo span { color: #1a5d1a; }
     .main-nav { display: flex; gap: 40px; }
-    .nav-item { font-size: 0.95rem; font-weight: 600; color: #333; padding: 10px 0; transition: color 0.3s ease; }
-    .nav-item:hover, .nav-item.active { color: #1a5d1a; }
-    .header-actions { display: flex; align-items: center; gap: 25px; }
-    .user-icon { width: 32px; height: 32px; background: #e0e0e0; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .nav-item { font-weight: 600; color: #333; }
+    .nav-item:hover { color: #1a5d1a; }
+    .user-icon {
+      width: 32px; height: 32px; background: #e0e0e0;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
 
-    /* =====================================================
-    CONTENEDOR DE AJUSTES
-    ===================================================== */
-    .settings-container { max-width: 1100px; margin: 40px auto; display: flex; gap: 30px; padding: 0 20px; }
-    .settings-sidebar { width: 280px; background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); height: fit-content; }
-    .sidebar-title { font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; padding-left: 10px; color: #1a1a1a; }
+    /* Contenedor principal con sidebar + formulario */
+    .settings-container {
+      max-width: 1100px; margin: 40px auto;
+      display: flex; gap: 30px; padding: 0 20px;
+    }
+
+    /* Menú lateral de opciones */
+    .settings-sidebar {
+      width: 260px; background: white; border-radius: 15px;
+      padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); height: fit-content;
+    }
+    .sidebar-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; }
     .sidebar-menu { list-style: none; }
-    .menu-item { padding: 12px 15px; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; display: flex; align-items: center; gap: 12px; color: #666; }
+    .menu-item {
+      padding: 12px 15px; border-radius: 10px; margin-bottom: 6px;
+      font-weight: 600; cursor: pointer; color: #666;
+      transition: background 0.2s;
+    }
     .menu-item:hover { background: #f0f0f0; color: #1a5d1a; }
     .menu-item.active { background: #1a5d1a; color: white; }
-    .settings-main { flex: 1; background: white; border-radius: 15px; padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-    .section-header { margin-bottom: 30px; border-bottom: 2px solid #f5f5f5; padding-bottom: 15px; }
-    .section-header h2 { font-size: 1.5rem; font-weight: 800; color: #1a1a1a; }
 
-    /* =====================================================
-    FORMULARIOS
-    ===================================================== */
-    .settings-form { display: grid; gap: 25px; }
+    /* Zona principal con el formulario */
+    .settings-main {
+      flex: 1; background: white; border-radius: 15px;
+      padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+    .settings-main h2 {
+      font-size: 1.4rem; font-weight: 800; margin-bottom: 25px;
+      padding-bottom: 15px; border-bottom: 2px solid #f0f0f0;
+    }
+
+    /* Formulario de ajustes */
+    .settings-form { display: grid; gap: 20px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
     .form-group label { font-size: 0.9rem; font-weight: 700; color: #444; }
-    .form-group input, .form-group select { padding: 12px 15px; border: 2px solid #eee; border-radius: 10px; font-family: inherit; font-size: 0.95rem; transition: border-color 0.3s ease; }
-    .form-group input:focus, .form-group select:focus { outline: none; border-color: #1a5d1a; }
-    .form-group select { background-color: white; cursor: pointer; }
-    .avatar-upload { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; background: #fdfdfd; padding: 20px; border-radius: 12px; border: 1px dashed #ddd; }
-    .current-avatar { width: 80px; height: 80px; border-radius: 50%; background: #1a5d1a; color: white; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; }
-    .upload-btn { background: #eee; padding: 10px 20px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: background 0.3s ease; }
-    .upload-btn:hover { background: #e0e0e0; }
-    .btn-save { background: #1a5d1a; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; margin-top: 10px; width: fit-content; }
-    .btn-save:hover { background: #2d8f2d; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(26, 93, 26, 0.3); }
+    .form-group input,
+    .form-group select {
+      padding: 12px 15px; border: 2px solid #eee; border-radius: 10px;
+      font-family: inherit; font-size: 0.95rem;
+    }
+    .form-group input:focus,
+    .form-group select:focus { outline: none; border-color: #1a5d1a; }
 
-    /* =====================================================
-    FOOTER
-    ===================================================== */
-    .main-footer { background: #1a1a1a; color: #fff; padding: 40px; text-align: center; margin-top: 60px; }
-    .footer-logo { font-size: 1.5rem; font-weight: 800; margin-bottom: 15px; }
+    /* Sección de foto de perfil */
+    .avatar-upload {
+      display: flex; align-items: center; gap: 20px;
+      background: #fdfdfd; padding: 20px; border-radius: 12px;
+      border: 1px dashed #ddd; margin-bottom: 25px;
+    }
+    .current-avatar {
+      width: 75px; height: 75px; border-radius: 50%;
+      background: #1a5d1a; color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 700;
+    }
+    .upload-btn {
+      background: #eee; padding: 10px 18px;
+      border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+    }
+    .upload-btn:hover { background: #e0e0e0; }
+
+    /* Botón de guardar */
+    .btn-save {
+      background: #1a5d1a; color: white; border: none;
+      padding: 14px 28px; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; cursor: pointer;
+    }
+    .btn-save:hover { background: #2d8f2d; }
+
+    /* Pie de página */
+    .main-footer {
+      background: #1a1a1a; color: #fff;
+      padding: 35px; text-align: center; margin-top: 60px;
+    }
+    .footer-logo { font-size: 1.4rem; font-weight: 800; margin-bottom: 10px; }
     .footer-logo span { color: #1a5d1a; }
     .footer-copy { color: #666; font-size: 0.8rem; }
 
+    /* En móvil, los bloques se ponen uno encima del otro */
     @media (max-width: 900px) {
       .settings-container { flex-direction: column; }
       .settings-sidebar { width: 100%; }
@@ -74,6 +117,7 @@
 </head>
 <body>
 
+  <!-- Cabecera de la web -->
   <header class="main-header">
     <a href="home.html" class="logo">JOGO <span>BONITO</span></a>
     <nav class="main-nav">
@@ -81,15 +125,16 @@
       <a href="camisetas.html" class="nav-item">Camisetas</a>
       <a href="botas.html" class="nav-item">Botas</a>
     </nav>
-    <div class="header-actions">
-      <a href="ajustes.html" class="user-link">
-        <div class="user-icon">👤</div>
-      </a>
-      <a href="carrito.html" class="cart-btn">🛒</a>
+    <div style="display:flex; gap:20px; align-items:center;">
+      <a href="ajustes.html"><div class="user-icon">👤</div></a>
+      <a href="carrito.html">🛒</a>
     </div>
   </header>
 
+  <!-- Página de ajustes: sidebar + contenido -->
   <div class="settings-container">
+
+    <!-- Menú lateral -->
     <aside class="settings-sidebar">
       <h3 class="sidebar-title">Configuración</h3>
       <ul class="sidebar-menu">
@@ -98,27 +143,30 @@
         <li class="menu-item">💳 Métodos de Pago</li>
         <li class="menu-item">🔔 Notificaciones</li>
         <li class="menu-item">🔒 Seguridad y Privacidad</li>
-        <!-- ✅ CANVI 1: href ara apunta a login.html -->
-        <li class="menu-item" id="logoutBtn" style="color: #e74c3c; margin-top: 20px;">
+        <!-- Al clicar "Cerrar Sesión" te lleva a login.html -->
+        <li class="menu-item" style="color:#e74c3c; margin-top:20px;">
           <a href="login.html">🚪 Cerrar Sesión</a>
         </li>
       </ul>
     </aside>
 
+    <!-- Formulario principal -->
     <main class="settings-main">
-      <div class="section-header">
-        <h2>Información del Perfil</h2>
-      </div>
+      <h2>Información del Perfil</h2>
+
+      <!-- Foto de perfil -->
       <div class="avatar-upload">
         <div class="current-avatar">DM</div>
         <div>
-          <p style="font-weight: 700; margin-bottom: 5px;">Foto de Perfil</p>
+          <p style="font-weight:700; margin-bottom:5px;">Foto de Perfil</p>
           <label class="upload-btn">
             Cambiar foto
-            <input type="file" style="display: none;">
+            <input type="file" style="display:none;">
           </label>
         </div>
       </div>
+
+      <!-- Formulario con los datos del usuario -->
       <form class="settings-form" id="settingsForm">
         <div class="form-row">
           <div class="form-group">
@@ -142,23 +190,23 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="size">Talla Habitual (Camisetas)</label>
+            <label for="size">Talla Habitual</label>
             <select id="size">
-              <option value="s">S</option>
-              <option value="m" selected>M</option>
-              <option value="l">L</option>
-              <option value="xl">XL</option>
+              <option>S</option>
+              <option selected>M</option>
+              <option>L</option>
+              <option>XL</option>
             </select>
           </div>
         </div>
         <div class="form-group">
-          <label for="position">Tu posición preferida en el campo</label>
-          <input type="text" id="position" placeholder="Ej: Delantero centro, Extremo izquierdo...">
+          <label for="position">Posición favorita en el campo</label>
+          <input type="text" id="position" placeholder="Ej: Delantero, Extremo izquierdo...">
         </div>
         <div class="form-group">
-          <label for="newsletter">
-            <input type="checkbox" id="newsletter" checked style="width: auto; margin-right: 10px;">
-            Deseo recibir ofertas exclusivas de camisetas y botas en mi email.
+          <label>
+            <input type="checkbox" id="newsletter" checked style="width:auto; margin-right:8px;">
+            Quiero recibir ofertas por email
           </label>
         </div>
         <button type="submit" class="btn-save">Guardar Cambios</button>
@@ -166,31 +214,25 @@
     </main>
   </div>
 
+  <!-- Pie de página -->
   <footer class="main-footer">
     <div class="footer-logo">JOGO <span>BONITO</span></div>
     <p class="footer-copy">© 2026 Jogo Bonito - Tu tienda de fútbol de confianza | Reus, Catalunya</p>
   </footer>
 
   <script>
+    // Cuando se guarda el formulario, muestra un mensaje de confirmación
     document.getElementById('settingsForm').addEventListener('submit', function(e) {
       e.preventDefault();
       alert('✅ Ajustes guardados correctamente.');
     });
 
-    // ✅ CANVI 2: window.location.href ara apunta a login.html
-    const logoutBtn = document.getElementById('logoutBtn');
-    if (logoutBtn) {
-      logoutBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        window.location.href = 'login.html';
-      });
-    }
-
+    // Al cargar la página, rellena el nombre y email con los datos guardados
     window.addEventListener('DOMContentLoaded', function() {
-      const currentUser = localStorage.getItem('currentUser');
-      const userEmail = localStorage.getItem('userEmail');
-      if (currentUser) { document.getElementById('name').value = currentUser; }
-      if (userEmail) { document.getElementById('email').value = userEmail; }
+      const nombre = localStorage.getItem('currentUser');
+      const email = localStorage.getItem('userEmail');
+      if (nombre) document.getElementById('name').value = nombre;
+      if (email) document.getElementById('email').value = email;
     });
   </script>
 
